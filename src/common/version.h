@@ -12,3 +12,5 @@
 #define VERSION_STR "2.6" VERSION_STR_POSTFIX GIT_VERSION_STR_POSTFIX
 
 #endif /* VERSION_H */
+
+#include "version_laird.h"

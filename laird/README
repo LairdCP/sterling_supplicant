@@ -1,0 +1,73 @@
+Laird Sterling Supplicant
+2017/05/25
+
+--------------------------------------------------------------------
+Building the Sterling Supplicant:
+Details for building wpa_supplicant are provided in ./wpa_supplicant/README.
+
+The Makefile in this directory is provided to assist with building
+using a cross-compiler toolchain that has gcc and pkg-config.
+The toolchain pkg-config must provide libnl3, dbus-1, and xml2.
+
+Invoke the cross-compiler build using:
+       $ make CC=cross-compiler-toolchain-prefix-gcc
+The Makefile will:
+    - verify the toolchain compiler is availble
+    - verify the toolchain pkg-config is available
+    - copy configuration file <config_laird> to ../wpa_supplicant/.config
+    - invoke the ../wpa_supplicant/Makefile with "clean"
+    - invoke the ../wpa_supplicant/Makefile
+Output files will be found in ../wpa_supplicant.
+A symbol stripped copy of wpa_supplicant will be in the laird directory.
+
+Native builds are also supported by leaving out the CC option:
+       $ make
+Output files will be found in ../wpa_supplicant.
+
+The make command line may also specify a specific component:
+For example, to build just wpa_supplicant:
+       $ make CC=cross-compiler-toolchain-prefix-gcc wpa_supplicant
+--------------------------------------------------------------------
+Typical make failures/errors:
+
+>> ERROR: cannot find compiler: cross-compiler-gcc
+Compiler name is mistyped, or is not on the path.
+
+>> ERROR: cannot find pkg-config: cross-compile-path/cross-compiler-pkg-config
+pkg-config cannot be found for the cross compiler toolchain.
+May be able to proceed by specifying PKG_CONFIG=pkg-config-with-full-path
+
+>> ERROR: cannot find objcopy: cross-compiler-objcopy
+objcopy cannot be found for the cross compiler toolchain
+
+>> fatal error: dbus/dbus.h: No such file or directory
+A toolchain library may be missing or not supported from pkg-config.
+
+   For specific missing include files:
+   <dbus/dbus.h> - dbus library is missing
+   <dbus/*>
+        - add the missing dbus library to the toolchain
+        - OR disable dbus in the configuration
+          by commenting out the following in <config_laird>
+                CONFIG_CTRL_IFACE_DBUS_NEW=y
+                CONFIG_CTRL_IFACE_DBUS_INTRO=y
+          (Note, this will disable control through network manager)
+
+   <netlink/genl/genl.h> - netlink (libnl) library is missing
+   <netlink/*>
+        - add the missing netlink library to the toolchain
+        - in this case, disabling use of netlink is not an option
+
+--------------------------------------------------------------------
+The Laird Sterling Supplicant is based on wpa_supplicant-2.6.
+Supplicant source changes:
+- Laird version number
+- laird directory - readme, makefile, build configuration
+
+--------------------------------------------------------------------
+Laird Directory
+The laird directory includes the following:
+- README - this text file
+- config_laird - build configuration for the sterling supplicant
+- Makefile - makefile for building the sterling supplicant
+
