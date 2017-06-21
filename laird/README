@@ -63,6 +63,11 @@ The Laird Sterling Supplicant is based on wpa_supplicant-2.6.
 Supplicant source changes:
 - Laird version number
 - laird directory - readme, makefile, build configuration
+- BZ14773: EAP-FAST authentication fails if ACS server is not configured
+  to allow authenticated provisioning
+
+To get a complete list of differences, excluding the laird directory:
+   $ git diff hostap_2_6 -- . ':!laird'
 
 --------------------------------------------------------------------
 Laird Directory

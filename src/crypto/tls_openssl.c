@@ -3547,6 +3547,17 @@ int tls_connection_set_cipher_list(void *tls_ctx, struct tls_connection *conn,
 		case TLS_CIPHER_AES256_SHA:
 			suite = "AES256-SHA";
 			break;
+#ifndef CONFIG_REMOVE_LAIRD_MODS
+		case TLS_CIPHER_DISABLE_ECDH:
+			/* BZ14773 - disable ECDH for EAP-FAST phase2 */
+			if (pos == buf) {
+				/* first entry, precede with "DEFAULT" */
+				suite = "DEFAULT:-ECDH";
+			} else {
+				suite = "-ECDH";
+			}
+			break;
+#endif
 		default:
 			wpa_printf(MSG_DEBUG, "TLS: Unsupported "
 				   "cipher selection: %d", *c);

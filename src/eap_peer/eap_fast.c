@@ -1473,6 +1473,28 @@ static int eap_fast_set_provisioning_ciphers(struct eap_sm *sm,
 	return 0;
 }
 
+#ifndef CONFIG_REMOVE_LAIRD_MODS
+/* BZ14773 - disable ECDH for eap-fast phase2 */
+/* phase2 fails if ACS only allows anonymous in-band PAC provisioning */
+static int eap_fast_set_ciphers(struct eap_sm *sm,
+					     struct eap_fast_data *data)
+{
+	u8 ciphers[2];
+	int count = 0;
+
+	ciphers[count++] = TLS_CIPHER_DISABLE_ECDH;
+	ciphers[count++] = TLS_CIPHER_NONE;
+
+	if (tls_connection_set_cipher_list(sm->ssl_ctx, data->ssl.conn,
+					   ciphers)) {
+		wpa_printf(MSG_INFO, "EAP-FAST: Could not configure TLS "
+			   "cipher suites");
+		return -1;
+	}
+
+	return 0;
+}
+#endif
 
 static int eap_fast_process_start(struct eap_sm *sm,
 				  struct eap_fast_data *data, u8 flags,
@@ -1518,6 +1540,13 @@ static int eap_fast_process_start(struct eap_sm *sm,
 			return -1;
 		data->provisioning = 1;
 	}
+#ifndef CONFIG_REMOVE_LAIRD_MODS
+	/* BZ14773 - disable ECDH for eap-fast phase2 */
+	if (!data->provisioning) {
+		if (eap_fast_set_ciphers(sm, data) < 0)
+			return -1;
+	}
+#endif
 
 	return 0;
 }
