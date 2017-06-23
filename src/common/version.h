@@ -13,4 +13,6 @@
 
 #endif /* VERSION_H */
 
+#ifndef CONFIG_REMOVE_LAIRD_MODS
 #include "version_laird.h"
+#endif
