@@ -1,5 +1,6 @@
 #ifndef VERSION_LAIRD_H
 #define VERSION_LAIRD_H
+#include "lrd_build_number.h"
 /* Laird version number */
 #define SUPPVER1	94
 #define SUPPVER2	4
@@ -9,7 +10,7 @@
 #define _MACRO2STR(x) #x
 #define MACRO2STR(x) _MACRO2STR(x)
 #define LAIRD_VERSION_STR_POSTFIX \
- "-Laird_" \
+ "-Laird_" LRD_BUILD_NUMBER "-"\
  MACRO2STR(SUPPVER1) "."	 \
  MACRO2STR(SUPPVER2) "." \
  MACRO2STR(SUPPVER3) "." \
