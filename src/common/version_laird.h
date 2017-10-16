@@ -5,7 +5,7 @@
 #define SUPPVER1	94
 #define SUPPVER2	4
 #define SUPPVER3	0
-#define	SUPPVER4	1
+#define	SUPPVER4	2
 
 #define _MACRO2STR(x) #x
 #define MACRO2STR(x) _MACRO2STR(x)
