@@ -1,1 +1,1 @@
-#define LRD_BUILD_NUMBER "3.5.5.39"
+#define LRD_BUILD_NUMBER "3.5.5.40"
